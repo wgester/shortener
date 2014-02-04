@@ -1,12 +1,14 @@
 require 'sinatra'
 require 'active_record'
 require 'pry'
+require 'securerandom'
 
 ###########################################################
 # Configuration
 ###########################################################
 
 set :public_folder, File.dirname(__FILE__) + '/public'
+
 
 configure :development, :production do
     ActiveRecord::Base.establish_connection(
@@ -35,7 +37,7 @@ end
 ###########################################################
 
 get '/' do
-    @links = [] # FIXME
+    @links = Link.all
     erb :index
 end
 
@@ -45,6 +47,16 @@ end
 
 post '/new' do
     # PUT CODE HERE TO CREATE NEW SHORTENED LINKS
+    url = params[:url]
+    short = SecureRandom.urlsafe_base64(4, false)
+    Link.create(:url=> url, :shortUrl=> short)
 end
+
+get '/link/:shortUrl' do
+  redirect 'http://'+Link.where(shortUrl: params[:shortUrl]).take(1)[0][:url]
+end
+
+
+
 
 # MORE ROUTES GO HERE

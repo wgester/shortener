@@ -8,8 +8,18 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130110054237) do
+ActiveRecord::Schema.define(version: 20140204191844) do
+
+  create_table "Links", force: true do |t|
+    t.string "url"
+    t.string "shortUrl"
+  end
+
+  create_table "shortLinks", force: true do |t|
+    t.string "url"
+    t.string "shortUrl"
+  end
 
 end
