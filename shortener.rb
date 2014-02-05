@@ -30,6 +30,7 @@ end
 # http://guides.rubyonrails.org/association_basics.html
 
 class Link < ActiveRecord::Base
+  # attr_accessor :count
 end
 
 ###########################################################
@@ -46,14 +47,24 @@ get '/new' do
 end
 
 post '/new' do
-    # PUT CODE HERE TO CREATE NEW SHORTENED LINKS
     url = params[:url]
     short = SecureRandom.urlsafe_base64(4, false)
-    Link.create(:url=> url, :shortUrl=> short)
+    prevEntry = Link.where(url: url).take(1)[0]
+    if !prevEntry
+      Link.create(:url=> url, :shortUrl=> short)
+      short
+    else
+      prevEntry[:shortUrl]
+    end
 end
 
-get '/link/:shortUrl' do
-  redirect 'http://'+Link.where(shortUrl: params[:shortUrl]).take(1)[0][:url]
+get '/:shortUrl' do
+  if entry = Link.find_by_shortUrl(params[:shortUrl])
+    entry.update_attribute(:count, entry[:count] + 1)
+    redirect 'http://'+ entry[:url]
+  else
+    redirect to '/'
+  end
 end
 
 

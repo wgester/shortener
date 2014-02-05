@@ -3,7 +3,7 @@
 <ul class="links">
 <% @links.each do |link| %>
   <li>
-    <a href="/link/<%= link.shortUrl %>"><%= link.shortUrl %></a>
+    <a href="/<%= link.shortUrl %>"><%= link.shortUrl %></a>(<%= link.count %>)
   </li>
 <% end %>
 </ul>

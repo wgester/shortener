@@ -10,16 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140204191844) do
+ActiveRecord::Schema.define(version: 20140205000634) do
 
-  create_table "Links", force: true do |t|
-    t.string "url"
-    t.string "shortUrl"
-  end
-
-  create_table "shortLinks", force: true do |t|
-    t.string "url"
-    t.string "shortUrl"
+  create_table "links", force: true do |t|
+    t.string   "url"
+    t.string   "shortUrl"
+    t.integer  "count",      default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
